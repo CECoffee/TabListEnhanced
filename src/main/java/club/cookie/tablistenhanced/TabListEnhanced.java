@@ -5,12 +5,8 @@ import club.cookie.tablistenhanced.scoreboard.EPScoreboard;
 import club.cookie.tablistenhanced.scoreboard.UpdatePlayers;
 import club.cookie.tablistenhanced.scoreboard.UpdateScoreboard;
 import club.cookie.tablistenhanced.versiondetect.NewVersionDetector1182;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
 import com.google.common.io.ByteStreams;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.minecraft.network.chat.IChatBaseComponent;
-import net.minecraft.network.protocol.game.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,7 +56,7 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
         HeaderFooter.footerAnimation = new ArrayList(this.getConfig().getStringList("footer"));
         HeaderFooter hf = new HeaderFooter(this);
         this.epsb.permOrder = new ArrayList(this.getConfig().getStringList("sortByPerms"));
-        this.epsb.groupKeys = Objects.requireNonNull(this.getConfig().getConfigurationSection("groups")).getKeys(false);
+        this.epsb.groupKeys = this.getConfig().getConfigurationSection("groups").getKeys(false);
         this.up.updatePlaceholderAPIPlaceholders();
         this.usb.updateboard();
         this.up.rechecking();
@@ -120,15 +116,15 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
     private void loadResource(String s) {
         File folder = this.getDataFolder();
         if (!folder.exists()){folder.mkdir();}
-        File resFile = new File(folder, "config.yaml");
+        File resFile = new File(folder, "config.yml");
 
         try{
             if(!resFile.exists() && resFile.createNewFile()){
-                InputStream in = this.getResource("config.yaml");
+                InputStream in = this.getResource("config.yml");
                 Throwable var1 = null;
 
                 try{
-                    OutputStream out = new FileOutputStream(resFile);
+                    OutputStream out = Files.newOutputStream(resFile.toPath());
                     Throwable var4 = null;
 
                     try {ByteStreams.copy(in,out);}catch (Throwable var5){

@@ -2,13 +2,13 @@ name: TabListEnhanced
 version: '${project.version}'
 main: club.cookie.tablistenhanced.TabListEnhanced
 api-version: 1.18
-softdepend: [EZRanksPro, PlaceholderAPI]
+softdepend: [PlaceholderAPI]
 commands:
   tablistenhanced:
     description: Main command for TabListEnhanced
     usage: /<Command>
-  tlp:
-    description: Main command for TabListPro
+  tle:
+    description: Main command for TabListEnhanced
     usage: /<Command>
     aliases: [tablistenhanced]
 permissions:
