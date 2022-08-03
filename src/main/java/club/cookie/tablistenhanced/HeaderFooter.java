@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import club.cookie.tablistenhanced.config.TLUserConfigs;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -80,13 +79,9 @@ public class HeaderFooter {
     public void tabRefresh() {
         if (this.plugin.getConfig().getInt("header-interval") >= this.plugin.getConfig().getInt("footer-interval")) {
             fastestUpdateRateReq = this.plugin.getConfig().getInt("footer-interval") - 1;
-        } else {
-            fastestUpdateRateReq = this.plugin.getConfig().getInt("header-interval") - 1;
-        }
+        } else {fastestUpdateRateReq = this.plugin.getConfig().getInt("header-interval") - 1; }
 
-        if (fastestUpdateRateReq == 0) {
-            fastestUpdateRateReq = 1;
-        }
+        if (fastestUpdateRateReq == 0) {fastestUpdateRateReq = 1;}
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, () -> {
             if (this.plugin.getConfig().getBoolean("header-enabled") || this.plugin.getConfig().getBoolean("footer-enabled")) {

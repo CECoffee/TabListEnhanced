@@ -5,8 +5,12 @@ import club.cookie.tablistenhanced.scoreboard.EPScoreboard;
 import club.cookie.tablistenhanced.scoreboard.UpdatePlayers;
 import club.cookie.tablistenhanced.scoreboard.UpdateScoreboard;
 import club.cookie.tablistenhanced.versiondetect.NewVersionDetector1182;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.google.common.io.ByteStreams;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.neznamy.tab.api.HeaderFooterManager;
+import me.neznamy.tab.api.TabAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -26,6 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class TabListEnhanced extends JavaPlugin implements Listener , CommandExecutor {
+    //public static ProtocolManager pm;
+    public static HeaderFooterManager hfm;
 
     public static boolean placeholderapi = false;
     public EPScoreboard epsb;
@@ -44,9 +49,13 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
     private NewVersionDetector1182 this14;
 
     public TabListEnhanced(){}
+    @Override
 
     public void onEnable() {
+        //pm = ProtocolLibrary.getProtocolManager();
+        hfm = TabAPI.getInstance().getHeaderFooterManager();
         apiInstance=this;
+        this.usb = new UpdateScoreboard();
         this.up = new UpdatePlayers();
         this.epsb = new EPScoreboard(this);
         this.loadResource("config.yml");
