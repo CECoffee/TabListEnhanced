@@ -9,21 +9,21 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public class EPScoreboard {
-    private TabListEnhanced plugin;
+    private final TabListEnhanced plugin;
     public int updateSpeedGlobal;
     public int updateFrame = 0;
     public int biggestAnimationList = 0;
-    public Map<String, String> group = new HashMap();
-    public Map<String, String> groupTemp = new HashMap();
+    public Map<String, String> group = new HashMap<>();
+    public Map<String, String> groupTemp = new HashMap<>();
     public Set<String> groupKeys;
-    public HashMap<String, List<String>> animations = new HashMap();
-    private static final HashMap<String, String> playerPrefixPlaceheld = new HashMap();
-    private static final HashMap<String, String> playerSuffixPlaceheld = new HashMap();
+    public HashMap<String, List<String>> animations = new HashMap<>();
+    private static final HashMap<String, String> playerPrefixPlaceheld = new HashMap<>();
+    private static final HashMap<String, String> playerSuffixPlaceheld = new HashMap<>();
     public final boolean EP_VERSION = false;
     private final boolean HIGHEST_PRESTIGES_FIRST = true;
     private final int MAX_PRESTIGES = 88;
     private final List<String> RANKS = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
-    public ArrayList<String> permOrder = new ArrayList();
+    public ArrayList<String> permOrder = new ArrayList<>();
 
     public EPScoreboard(TabListEnhanced plugin) {
         this.plugin = plugin;

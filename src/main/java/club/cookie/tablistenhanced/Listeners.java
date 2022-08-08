@@ -23,9 +23,7 @@ public class Listeners implements Listener {
         Player ppl = event.getPlayer();
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> {
             this.plugin.up.resort();
-            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
-                this.plugin.up.checkGroupUpdate(ppl);
-            });
+            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> this.plugin.up.checkGroupUpdate(ppl));
         }, 20L);
     }
 

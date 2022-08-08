@@ -51,7 +51,6 @@ private final TabListEnhanced plugin = JavaPlugin.getPlugin(TabListEnhanced.clas
         String keys;
         if (sender instanceof Player) {
             Player p = (Player)sender;
-            p.getUniqueId().toString();
             TabListEnhanced var10001;
             if (p.hasPermission("tablistenhanced.reload")) {
                 if (label.equalsIgnoreCase("tablistenhanced") || label.equalsIgnoreCase("tle")) {
@@ -79,12 +78,12 @@ private final TabListEnhanced plugin = JavaPlugin.getPlugin(TabListEnhanced.clas
                                         keys = (String)var7.next();
                                     } while(!keys.replaceAll("groups\\.", "").equalsIgnoreCase(args[2]));
 
-                                    TLUserConfigs cm = new TLUserConfigs(this.plugin, Bukkit.getPlayer(args[1]));
+                                    TLUserConfigs cm = new TLUserConfigs(this.plugin, Objects.requireNonNull(Bukkit.getPlayer(args[1])));
                                     FileConfiguration f = cm.getConfig();
                                     f.set("group", args[2]);
                                     cm.reload();
                                     cm.saveConfig();
-                                    this.epsb.group.put(Bukkit.getPlayer(args[1]).getUniqueId().toString(), args[2]);
+                                    this.epsb.group.put(Objects.requireNonNull(Bukkit.getPlayer(args[1])).getUniqueId().toString(), args[2]);
                                     this.plugin.up.checkGroupUpdate(Bukkit.getPlayer(args[1]));
                                     p.sendMessage(ChatColor.GREEN + "[TabListEnhanced] Successfully set " + args[1] + "'s group to " + args[2] + "!");
                                     this.plugin.usb.updateboard();
@@ -127,12 +126,12 @@ private final TabListEnhanced plugin = JavaPlugin.getPlugin(TabListEnhanced.clas
 
                         do {
                             if (!var11.hasNext()) {
-                                System.out.println("[TabListPro] Group " + args[2] + " not found.");
+                                System.out.println("[TabListEnhanced] Group " + args[2] + " not found.");
                                 return true;
                             }
 
                             keys = (String)var11.next();
-                        } while(!this.plugin.getConfig().getString("groups." + keys).contains(args[2]));
+                        } while(!Objects.requireNonNull(this.plugin.getConfig().getString("groups." + keys)).contains(args[2]));
 
                         TLUserConfigs cm = new TLUserConfigs(this.plugin, Objects.requireNonNull(Bukkit.getPlayer(args[1])));
                         FileConfiguration f = cm.getConfig();

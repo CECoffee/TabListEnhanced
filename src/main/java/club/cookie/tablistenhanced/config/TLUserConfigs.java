@@ -47,13 +47,6 @@ public class TLUserConfigs {
     }
 
     public JavaPlugin getInstance() {
-        if (this.plugin == null) {
-            try {
-                throw new Exception();
-            } catch (Exception ignored) {
-            }
-        }
-
         return this.plugin;
     }
 

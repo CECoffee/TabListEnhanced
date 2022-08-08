@@ -1,6 +1,8 @@
 package club.cookie.tablistenhanced.scoreboard;
 
 import java.util.List;
+import java.util.Objects;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 import club.cookie.tablistenhanced.TabListEnhanced;
 import club.cookie.tablistenhanced.config.TLUserConfigs;
@@ -20,12 +22,12 @@ public class UpdateScoreboard {
 
         try {
             this.plugin.id.cancel();
-        } catch (Exception var3) {
+        } catch (Exception ignored) {
         }
 
         this.plugin.epsb.updateSpeedGlobal = this.plugin.getConfig().getInt("name-animation");
         this.plugin.epsb.biggestAnimationList = 0;
-        this.plugin.epsb.groupKeys = this.plugin.getConfig().getConfigurationSection("groups").getKeys(false);
+        this.plugin.epsb.groupKeys = Objects.requireNonNull(this.plugin.getConfig().getConfigurationSection("groups")).getKeys(false);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             this.plugin.up.checkGroupUpdate(p);
@@ -54,7 +56,7 @@ public class UpdateScoreboard {
 
                     this.plugin.epsb.groupTemp.putIfAbsent(uuid, this.plugin.getConfig().getString("default-group"));
                     Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
-                        List list = this.plugin.epsb.animations.get(this.plugin.epsb.groupTemp.get(uuid));
+                        List<String> list = this.plugin.epsb.animations.get(this.plugin.epsb.groupTemp.get(uuid));
                         if (list == null) {
                             this.plugin.epsb.groupTemp.put(uuid, this.plugin.getConfig().getString("default-group"));
                         }
@@ -64,20 +66,20 @@ public class UpdateScoreboard {
                             String playerTabText;
                             if (this.plugin.epsb.updateFrame < list.size()) {
                                 if (TabListEnhanced.placeholderapi) {
-                                    playerTabText = PlaceholderAPI.setPlaceholders(p, (String) list.get(this.plugin.epsb.updateFrame));
+                                    playerTabText = PlaceholderAPI.setPlaceholders(p, list.get(this.plugin.epsb.updateFrame));
                                     var10001 = this.plugin;
                                     p.setPlayerListName(TabListEnhanced.colorString(playerTabText.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName())));
                                 } else {
-                                    playerTabText = (String) list.get(this.plugin.epsb.updateFrame);
+                                    playerTabText = list.get(this.plugin.epsb.updateFrame);
                                     var10001 = this.plugin;
                                     p.setPlayerListName(TabListEnhanced.colorString(playerTabText.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName())));
                                 }
                             } else if (TabListEnhanced.placeholderapi) {
-                                playerTabText = PlaceholderAPI.setPlaceholders(p, (String) list.get(list.size() - 1));
+                                playerTabText = PlaceholderAPI.setPlaceholders(p, list.get(list.size() - 1));
                                 var10001 = this.plugin;
                                 p.setPlayerListName(TabListEnhanced.colorString(playerTabText.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName())));
                             } else {
-                                playerTabText = (String) list.get(list.size() - 1);
+                                playerTabText = list.get(list.size() - 1);
                                 var10001 = this.plugin;
                                 p.setPlayerListName(TabListEnhanced.colorString(playerTabText.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName())));
                             }

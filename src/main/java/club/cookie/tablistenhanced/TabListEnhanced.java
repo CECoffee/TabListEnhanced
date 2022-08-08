@@ -4,13 +4,11 @@ import club.cookie.tablistenhanced.config.TLUserConfigs;
 import club.cookie.tablistenhanced.scoreboard.EPScoreboard;
 import club.cookie.tablistenhanced.scoreboard.UpdatePlayers;
 import club.cookie.tablistenhanced.scoreboard.UpdateScoreboard;
-import club.cookie.tablistenhanced.versiondetect.NewVersionDetector1182;
+import club.cookie.tablistenhanced.versiondetect.VersionDetector1182;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.google.common.io.ByteStreams;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.neznamy.tab.api.HeaderFooterManager;
-import me.neznamy.tab.api.TabAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -30,7 +28,6 @@ import java.util.regex.Pattern;
 
 public final class TabListEnhanced extends JavaPlugin implements Listener , CommandExecutor {
     //public static ProtocolManager pm;
-    public static HeaderFooterManager hfm;
 
     public static boolean placeholderapi = false;
     public EPScoreboard epsb;
@@ -42,18 +39,17 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
     private static final String startTag = "#";
     private static final String endTag = "";
     public static TabListEnhanced apiInstance;
-    private static final Map<String, List<String>> groupAnimationsStripped = new HashMap();
+    private static final Map<String, List<String>> groupAnimationsStripped = new HashMap<>();
     private static final String ESSENTIALS_CHAT_FORMAT = "{prestige} {DISPLAYNAME}&r{EP_CHATTAG}&8&l »&r&7 {MESSAGE}";
     private static final String EXAMPLE_MESSAGE = "Hello!";
-    private static Map<String, Map<Player, List<String>>> groupAnimations = new HashMap();
-    private NewVersionDetector1182 this14;
+    private static Map<String, Map<Player, List<String>>> groupAnimations = new HashMap<>();
+    private VersionDetector1182 this14;
 
     public TabListEnhanced(){}
     @Override
 
     public void onEnable() {
         //pm = ProtocolLibrary.getProtocolManager();
-        hfm = TabAPI.getInstance().getHeaderFooterManager();
         apiInstance=this;
         this.usb = new UpdateScoreboard();
         this.up = new UpdatePlayers();
@@ -61,11 +57,11 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
         this.loadResource("config.yml");
         this.getConfig().options().copyDefaults(false);
         this.reloadConfig();
-        HeaderFooter.headerAnimation = new ArrayList(this.getConfig().getStringList("header"));
-        HeaderFooter.footerAnimation = new ArrayList(this.getConfig().getStringList("footer"));
+        HeaderFooter.headerAnimation = new ArrayList<>(this.getConfig().getStringList("header"));
+        HeaderFooter.footerAnimation = new ArrayList<>(this.getConfig().getStringList("footer"));
         HeaderFooter hf = new HeaderFooter(this);
-        this.epsb.permOrder = new ArrayList(this.getConfig().getStringList("sortByPerms"));
-        this.epsb.groupKeys = this.getConfig().getConfigurationSection("groups").getKeys(false);
+        this.epsb.permOrder = new ArrayList<>(this.getConfig().getStringList("sortByPerms"));
+        this.epsb.groupKeys = Objects.requireNonNull(this.getConfig().getConfigurationSection("groups")).getKeys(false);
         this.up.updatePlaceholderAPIPlaceholders();
         this.usb.updateboard();
         this.up.rechecking();
@@ -78,7 +74,7 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
         }
 
         if ("v1_18_R2".equals(implVersion)) {
-            this.tabV = new NewVersionDetector1182(this.this14);
+            this.tabV = new VersionDetector1182(this.this14);
             Bukkit.getServer().getPluginManager().registerEvents(this, this);
         } else {
             this.setEnabled(false);
@@ -176,7 +172,7 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
 
     public void loadAnimations() {
 
-        for (String keys : this.getConfig().getConfigurationSection("groups").getKeys(false)) {
+        for (String keys : Objects.requireNonNull(this.getConfig().getConfigurationSection("groups")).getKeys(false)) {
             if (this.getConfig().getStringList("groups." + keys + ".display").size() > 0) {
                 this.epsb.animations.put(keys, this.getConfig().getStringList("groups." + keys + ".display"));
             }
@@ -205,15 +201,15 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
 
     public String setPlayerTabGroup(Player p, String groupID) {
         if (p != null) {
-            Iterator var3 = this.epsb.groupKeys.iterator();
+            Iterator<String> var3 = this.epsb.groupKeys.iterator();
 
             String keys;
             do {
                 if (!var3.hasNext()) {
-                    return "[TabListPro] Group " + groupID + " not found in TabListPro's config.";
+                    return "[TabListEnhanced] Group " + groupID + " not found in TabListEnhanced's config.";
                 }
 
-                keys = (String)var3.next();
+                keys = var3.next();
             } while(!keys.replaceAll("groups\\.", "").equalsIgnoreCase(groupID));
 
             TLUserConfigs cm = new TLUserConfigs(JavaPlugin.getPlugin(TabListEnhanced.class), p);
@@ -232,7 +228,7 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
 
     public List<String> getGroupAnimationStripped(String groupID) {
         if (!groupAnimationsStripped.containsKey(groupID.toLowerCase())) {
-            List<String> groupAnimation = new ArrayList();
+            List<String> groupAnimation = new ArrayList<>();
 
             for (String keys : this.epsb.groupKeys) {
                 if (keys.replaceAll("groups\\.", "").equalsIgnoreCase(groupID.toLowerCase())) {

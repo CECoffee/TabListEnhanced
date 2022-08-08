@@ -3,6 +3,7 @@ version: '${project.version}'
 main: club.cookie.tablistenhanced.TabListEnhanced
 api-version: 1.18
 softdepend: [PlaceholderAPI]
+depend: [ProtocolLib]
 commands:
   tablistenhanced:
     description: Main command for TabListEnhanced

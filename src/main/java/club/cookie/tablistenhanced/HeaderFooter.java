@@ -14,7 +14,7 @@ public class HeaderFooter {
     static int fastestUpdateRateReq = 1;
     public static ArrayList<String> headerAnimation;
     public static ArrayList<String> footerAnimation;
-    public Map<String, String> headerAndFooterTabText = new HashMap();
+    public Map<String, String> headerAndFooterTabText = new HashMap<>();
 
     public HeaderFooter(TabListEnhanced plugin) {
         this.plugin = plugin;
@@ -95,7 +95,7 @@ public class HeaderFooter {
                                 return;
                             }
 
-                            ppl = (Player)var1.next();
+                            ppl = var1.next();
                         } while(ppl == null);
 
                         TabListEnhanced var10002;

@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.util.Objects;
+
 public class UpdatePlayers {
     private final TabListEnhanced plugin = JavaPlugin.getPlugin(TabListEnhanced.class);
 
@@ -15,11 +17,8 @@ public class UpdatePlayers {
 
     private Scoreboard statsScoreboard(Player p) {
         Scoreboard scoreboard;
-        if (Bukkit.getScoreboardManager().getMainScoreboard() != null) {
-            scoreboard = p.getScoreboard();
-        } else {
-            scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        }
+        Bukkit.getScoreboardManager().getMainScoreboard();
+        scoreboard = p.getScoreboard();
 
         if (scoreboard.getObjective(p.getName()) == null) {
             Objective objective = scoreboard.registerNewObjective(p.getName(), "dummy");
@@ -62,20 +61,19 @@ public class UpdatePlayers {
 
             for (String keys : this.plugin.epsb.groupKeys) {
                 this.plugin.epsb.group.putIfAbsent(uuid, this.plugin.getConfig().getString("default-group"));
-                this.plugin.epsb.getClass();
-                if (ppl.hasPermission(this.plugin.getConfig().getString("groups." + keys + ".orHasPermission")) && !((String) this.plugin.epsb.group.get(uuid)).equalsIgnoreCase(keys)) {
+                if (ppl.hasPermission(Objects.requireNonNull(this.plugin.getConfig().getString("groups." + keys + ".orHasPermission"))) && !this.plugin.epsb.group.get(uuid).equalsIgnoreCase(keys)) {
                     this.plugin.epsb.groupTemp.put(uuid, keys);
                     this.plugin.epsb.updatePlayerPrefixSuffixPlaceholderString(ppl);
                     break;
                 }
 
-                if (!ppl.hasPermission(this.plugin.getConfig().getString("groups." + keys + ".orHasPermission")) && ((String) this.plugin.epsb.groupTemp.get(uuid)).equalsIgnoreCase(keys) && !((String) this.plugin.epsb.groupTemp.get(uuid)).equalsIgnoreCase((String) this.plugin.epsb.group.get(uuid))) {
+                if (!ppl.hasPermission(Objects.requireNonNull(this.plugin.getConfig().getString("groups." + keys + ".orHasPermission"))) && this.plugin.epsb.groupTemp.get(uuid).equalsIgnoreCase(keys) && !this.plugin.epsb.groupTemp.get(uuid).equalsIgnoreCase(this.plugin.epsb.group.get(uuid))) {
                     this.plugin.epsb.groupTemp.put(uuid, this.plugin.epsb.group.get(uuid));
                     this.plugin.epsb.updatePlayerPrefixSuffixPlaceholderString(ppl);
                     break;
                 }
 
-                if (((String) this.plugin.epsb.group.get(uuid)).equalsIgnoreCase(keys)) {
+                if (this.plugin.epsb.group.get(uuid).equalsIgnoreCase(keys)) {
                     this.plugin.epsb.groupTemp.put(uuid, keys);
                     this.plugin.epsb.updatePlayerPrefixSuffixPlaceholderString(ppl);
                     break;
