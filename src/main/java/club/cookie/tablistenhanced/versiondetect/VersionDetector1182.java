@@ -7,6 +7,8 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import org.bukkit.entity.Player;
 
+//import static club.cookie.tablistenhanced.TabListEnhanced.pm;
+
 public class VersionDetector1182 implements TabListEnhanced.TabV {
     public TabListEnhanced plugin11;
 
@@ -18,7 +20,7 @@ public class VersionDetector1182 implements TabListEnhanced.TabV {
     }
 
     public void sendTabHF(Player player, String header, String footer) {
-        PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
         packet.getChatComponents().write(0, WrappedChatComponent.fromJson("{\"text\": \"" + header + "\"}"));
         packet.getChatComponents().write(1, WrappedChatComponent.fromJson("{\"text\": \"" + footer + "\"}"));
         //IChatBaseComponent headerJSON = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + header + "\"}");
