@@ -73,7 +73,7 @@ public final class TabListEnhanced extends JavaPlugin implements Listener , Comm
             implVersion = "unknown";
         }
 
-        if ("v1_18_R2".equals(implVersion)) {
+        if (implVersion.startsWith("v1_18") ||implVersion.startsWith("v1_19")) {
             this.tabV = new VersionDetector1182(this.this14);
             Bukkit.getServer().getPluginManager().registerEvents(this, this);
         } else {
